@@ -1,0 +1,88 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fondo con gradiente romántico */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor central */
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Título */
+h1 {
+    font-size: 2.5rem;
+    color: #e63946;
+    margin-bottom: 1rem;
+}
+
+/* Imagen */
+.image-wrapper {
+        margin: 1.5rem 0;
+}
+.image-wrapper img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+.image-wrapper img:hover {
+    transform: scale(1.05);
+}
+
+/* Cita */
+.quote {
+    font-style: italic;
+    color: #555;
+    margin-top: 1rem;
+}
+
+/* Corazón animado */
+.heart {
+    position: relative;
+    width: 80px;
+    height: 70px;
+    margin: 2rem auto 0;
+}
+.heart::before,
+.heart::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 65px;
+    background: #e63946;
+    border-radius: 40px 40px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+    animation: beat 1.2s infinite;
+}
+.heart::after {
+    left: 40px;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+/* Animación de latido */
+@keyframes beat {
+      0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.85); }
+}
