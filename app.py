@@ -1,127 +1,81 @@
 import gradio as gr
+import random
 
+def generar_codigo(prompt):
+    prompt = prompt.lower()
 
-def generar(prompt, imagen=None):
-
-    if not prompt:
-        return "Escribe un proyecto"
-
-    if "discord" in prompt.lower():
-        lenguaje = "python"
-        codigo = '''
-# archivo: bot.py
+    if "discord" in prompt:
+        return """
+# BOT DE DISCORD EN PYTHON
 
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-
 @bot.event
 async def on_ready():
     print(f"Bot conectado como {bot.user}")
 
-
 @bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
+async def hola(ctx):
+    await ctx.send("Hola!")
 
+bot.run("TU_TOKEN")
+"""
 
-@bot.command()
-async def saludo(ctx):
-    await ctx.send(f"Hola {ctx.author.mention}")
-
-
-bot.run(TOKEN)
-'''
-    else:
-        lenguaje = "html"
-        codigo = f'''
-<!-- archivo: index.html -->
-
+    elif "html" in prompt:
+        return """
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>{prompt}</title>
-
+<title>Mi Página</title>
 <style>
-body {{
-    background: linear-gradient(135deg,#0f172a,#1e3a8a);
-    color:white;
-    font-family:Arial;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}}
-
-button {{
-    padding:20px 40px;
-    border:none;
-    border-radius:15px;
-    background:#3b82f6;
-    color:white;
-    font-size:20px;
-    cursor:pointer;
-    transition:.3s;
+body{
+background:black;
+color:lime;
+font-family:monospace;
+text-align:center;
+padding:50px;
 }
-
-button:hover {{
-    transform:scale(1.1);
-    box-shadow:0 0 30px #60a5fa;
-}}
 </style>
-
 </head>
 <body>
-
-<button>Botón Animado</button>
-
+<h1>Hola Mundo</h1>
 </body>
 </html>
-'''
+"""
 
-    return codigo, lenguaje
+    else:
+        return f"""
+# Código generado para:
+# {prompt}
 
+print("Proyecto generado correctamente")
+"""
 
-with gr.Blocks(
-    theme=gr.themes.Soft(),
-    title="Mi IA Programadora REAL"
-) as demo:
-
+with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown("# 🚀 Mi IA Programadora REAL")
-    gr.Markdown("### Pide cualquier proyecto")
 
-    prompt = gr.Textbox(
-        placeholder="Ej: hazme una página azul con botón animado"
+    entrada = gr.Textbox(
+        label="Pide cualquier proyecto",
+        placeholder="Ejemplo: haz un bot de discord"
     )
-
-    imagen = gr.Image(type="filepath", label="Sube Imagen")
 
     salida = gr.Code(
         label="Código generado",
-        language="python",
-        lines=35
+        language="python"
     )
 
-    estado = gr.Textbox(label="Estado")
-
-    boton = gr.Button("⚡ Generar")
+    boton = gr.Button("Generar")
 
     boton.click(
-        fn=lambda p, i: (*generar(p, i), "Proyecto generado correctamente"),
-        inputs=[prompt, imagen],
-        outputs=[salida, salida.language, estado]
+        fn=generar_codigo,
+        inputs=entrada,
+        outputs=salida
     )
 
 demo.launch()
